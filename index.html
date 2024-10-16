@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ForecastForge</title>
+    <link rel="icon" href="resources/images/favicon.png" type="image/x-icon" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+  </head>
+  <body>
+    <button id="toggleSidebar" class="toggle-button">☰</button>
+    <div class="container">
+      <aside class="sidebar" id="sidebar">
+        <button id="closeSidebar" class="close-button">&times;</button> <!-- Close button -->
+        <div class="user-profile">
+          <img src="resources/images/user-icon.png" alt="User Icon" class="user-icon" id="userProfile" style="width: 50px; height: 50px; border-radius: 50%;" />
+        </div>
+        
+        <!-- Modal Box for Developer Details -->
+        <div id="developerDetailsModal" class="modal">
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="developer-card">
+              <img src="resources/images/user-icon.png" alt="Developer Icon" class="developer-icon" />
+              <h2>Amna Hassan</h2>
+              <p><strong>Software Engineer</strong></p>
+              <p>FAST National University of Science and Technology</p>
+                <p>Email: <a href="mailto:i228759@nu.edu.com" style="color: #ffd700; text-decoration: underline;">i228759@nu.edu.com</a></p>
+              <p>Skills: C++, Java, MERN Stack, SQL, and more</p>
+            </div>
+          </div>
+        </div>
+        
+
+        
+        <div class="logo">ForecastForge</div>
+        <nav>
+          <ul>
+            <li><a href="#dashboard" id="dashboard-link">Dashboard</a></li>
+            <li><a href="#tables" id="tables-link">Tables</a></li>
+          </ul>
+        </nav>
+        <div class="theme-toggle">
+          <button id="toggle-theme" aria-label="Toggle Theme">
+            <svg class="icon sun" width="24" height="24" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="5" fill="yellow"></circle>
+              <g stroke="orange" stroke-width="2">
+                <line x1="12" y1="1" x2="12" y2="4"></line>
+                <line x1="12" y1="20" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="6.34" y2="6.34"></line>
+                <line x1="17.66" y1="17.66" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="4" y2="12"></line>
+                <line x1="20" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="6.34" y2="17.66"></line>
+                <line x1="17.66" y1="6.34" x2="19.78" y2="4.22"></line>
+              </g>
+            </svg>
+            <svg class="icon moon" width="24" height="24" viewBox="0 0 24 24">
+              <path
+                d="M21.75 14.5a8.25 8.25 0 1 1-9.89-8.16A9 9 0 1 0 21.75 14.5z"
+                fill="white"
+              ></path>
+            </svg>
+          </button>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <header>
+          <div class="search-bar-unit-container">
+            <div class="search-bar">
+              <input type="text" id="city-input" placeholder="Enter city name" />
+              <button id="search-btn">Get Weather</button>
+            </div>
+            <div class="unit-toggle">
+              <label class="switch">
+                <input type="checkbox" id="unit-toggle-input">
+                <span class="slider">
+                  <span class="unit-label celsius">°C</span>
+                  <span class="unit-label fahrenheit">°F</span>
+                </span>
+              </label>
+            </div>
+            
+          </div>
+          
+            
+        </header>
+
+        <section id="dashboard" class="dashboard">
+          <div class="weather-widget" id="weather-widget">
+            <div class="loader" id="loader" style="display: none"></div>
+            <div id="widget-data" style="display: none">
+              <div class="weather-header">
+                <div class="location">
+                  <h2 id="city-name"></h2>
+                  <p id="date-time">Oct 10, 09:07 PM</p>
+                </div>
+                <div class="weather-icon">
+                  <img
+                    id="weather-icon"
+                    src="https://openweathermap.org/img/wn/01n@2x.png"
+                    alt="Weather Icon"
+                  />
+                </div>
+              </div>
+              <div class="temperature" id="temperature"></div>
+              <div class="feels-like" id="feels-like"></div>
+              <div class="additional-info">
+                <div class="info-item">
+                  <i class="fas fa-wind icon"></i>
+                  <span class="label">Wind:</span>
+                  <span class="value" id="wind-speed"></span>
+                </div>
+                <div class="info-item">
+                  <i class="fas fa-tint icon"></i>
+                  <span class="label">Humidity:</span>
+                  <span class="value" id="humidity"></span>
+                </div>
+                <div class="info-item">
+                  <i class="fas fa-arrow-alt-circle-up icon"></i>
+                  <span class="label">Pressure:</span>
+                  <span class="value" id="pressure"></span>
+                </div>
+                <div class="info-item">
+                  <i class="fas fa-eye icon"></i>
+                  <span class="label">Visibility:</span>
+                  <span class="value" id="visibility"></span>
+                </div>
+                <div class="info-item">
+                  <i class="fas fa-cloud icon"></i>
+                  <span class="label">Dew Point:</span>
+                  <span class="value" id="dew-point"></span>
+                </div>
+              </div>
+            </div>
+            
+          
+          </div>
+            <h3 style="text-align: center; padding-top: 20px;">5 Days Weather Forecast</h3>
+            <div class="charts-container">
+            <div class="chart">
+              <canvas id="vertical-bar-chart" width="400" height="200"></canvas>
+            </div>
+            <div class="chart">
+              <canvas id="doughnut-chart"></canvas>
+            </div>
+            <div class="chart">
+              <canvas id="line-chart"></canvas>
+            </div>
+          </div>
+        </section>
+
+        <section id="tables">
+          <div class="content-area">
+            <div class="table-area">
+             
+              <div class="table-container">
+                <h2>5-Day Weather Forecast</h2>
+                 <div class="filter-container">
+                <label for="filter-select">Filter: </label>
+                <select id="filter-select">
+                  <option value="none">Select a filter</option>
+                  <option value="asc">Sort by Temperature (Ascending)</option>
+                  <option value="desc">Sort by Temperature (Descending)</option>
+                  <option value="rain">Filter Days with Rain</option>
+                  <option value="highest">Show Day with Highest Temperature</option>
+                  <option value="reset">Reset Filters</option>
+                </select>
+              </div>
+                <table id="forecast-table">
+                  <thead>
+                    <tr id="table-headers">
+                      <!-- Dynamic headers will be inserted here -->
+                    </tr>
+                  </thead>
+                  <tbody id="forecast-tbody">
+                    <!-- Rows will be dynamically inserted here -->
+                  </tbody>
+                </table>
+                <div class="pagination">
+                  <button id="prev-page" disabled>Previous</button>
+                  <span id="page-info"></span>
+                  <button id="next-page">Next</button>
+                </div>
+              </div>
+            </div>
+            <div class="chat-container" style="background-image: url('resources/images/ai-icon.png'); background-size: cover; background-position: center; ">
+              <div class="chat-header">
+                <h2>Chat with AI</h2>
+              </div>
+              <div class="chat-list"></div>
+              <form class="typing-form">
+                <input class="typing-input" type="text" placeholder="Type a message...">
+                <button id="chat-submit" type="submit">Send</button>
+              </form>
+            </div>
+
+            
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="scripts/script.js"></script>
+  </body>
+</html>
