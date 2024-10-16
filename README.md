@@ -2,6 +2,10 @@
 
 ForecastForge is a weather forecasting web application that provides users with current weather data and a 5-day forecast for any city they enter. The application includes various features such as data visualization, a sidebar for navigation, and an AI chat function for user interaction.
 
+## Live Demo
+**[ForecastForge Live](https://Amnahsan.github.io/ForecastForge/)**
+
+
 ## Features
 
 - **Current Weather Data**: Displays the current weather conditions for a specified city, including temperature, humidity, wind speed, pressure, and more.
