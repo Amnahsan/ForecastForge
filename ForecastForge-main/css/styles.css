@@ -1,0 +1,972 @@
+:root {
+  /* Light theme colors */
+  --accent-color-light: #ffd700; /* Bright yellow for light mode */
+  --accent-color-dark: #1d213c; /* Dark gray for dark mode */
+  --primary-color: #4facfe; /* Sky Blue */
+  --background-color: #0af0fc1c; /* Light grayish background */
+  --text-color: #333;
+  --widget-background: #4facfe;
+  --accent-color: #ffcb6b; /* Sunshine yellow */
+  --border-color: #ddd;
+  --gradient-bg: linear-gradient(
+    to bottom,
+    #00f2fe,
+    #4facfe
+  ); /* Light gradient */
+
+  /* Box shadow */
+  --box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  --card-color: #4facfe;
+}
+
+body.dark-mode {
+  /* Night Mode colors */
+  --card-color: #001f3f;
+  --primary-color: #60a3bc; /* Moonlight blue */
+  --background-color: #001f3f; /* Night sky blue */
+  --text-color: #e0e0e0; /* Soft light text */
+  --widget-background: #002b55; /* Dark Indigo widget background */
+  --accent-color: #ffd700; /* Bright yellow for stars (accent) */
+  --border-color: #002b55;
+
+  /* Night sky gradient */
+  --gradient-bg: linear-gradient(
+    to bottom,
+    #002b55,
+    #001f3f
+  ); /* Night mode gradient */
+
+  /* Box shadow */
+  --box-shadow: rgba(0, 0, 0, 0.3) 0px 4px 12px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
+  flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+
+.sidebar {
+  width: 250px; /* Default width for larger screens */
+  max-width: 200px;
+  background: var(--gradient-bg);
+  padding: 20px;
+  color: white;
+  transition: background 0.3s ease;
+  position: fixed; /* Fixed position for the sidebar */
+  left: -250px; /* Initially hidden off-screen */
+  top: 0;
+  height: 100%;
+  overflow-y: auto; /* Scroll if content is too long */
+  z-index: 1000; /* Ensure it's above other elements */
+}
+
+.sidebar.active {
+  left: 0; /* Slide in when active */
+}
+
+@keyframes floating {
+  0% {
+    transform: translate(0, -20px); /* Start above the original position */
+  }
+  25% {
+    transform: translate(10px, 20px); /* Move to the bottom-right */
+  }
+  50% {
+    transform: translate(10px, 0); /* Move down to the bottom */
+  }
+  75% {
+    transform: translate(
+      10px,
+      10px
+    ); /* Move up slightly for the bounce effect */
+  }
+  100% {
+    transform: translate(0, 0); /* Return to original position */
+  }
+}
+
+.toggle-button {
+  background-color: var(--primary-color);
+  color: white; /* Text color */
+  border: none; /* No border */
+  padding: 5px; /* Increase padding for a larger clickable area */
+  cursor: pointer; /* Pointer cursor on hover */
+  font-size: 20px; /* Font size */
+  position: absolute; /* Positioning the button */
+  margin: -4px; /* No margin */
+  top: 2px; /* Position from the top */
+  border-top-right-radius: 70%;
+  border-bottom-left-radius: 55%;
+  border-bottom-right-radius: 70%;
+  
+  width: 50px; /* Set a fixed width */
+  height: 50px; /* Set a fixed height */
+  display: flex; /* Flexbox for centering icon */
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+  animation: floating 7s ease-in-out infinite; /* Add the floating animation */
+}
+
+.toggle-button:hover {
+  background-color: var(--accent-color); /* Add a subtle hover effect */
+}
+
+.close-button {
+  background: none; /* No background */
+  border: none; /* No border */
+  color: white; /* White color */
+  font-size: 30px; /* Font size for the close icon */
+  cursor: pointer; /* Pointer cursor */
+  position: absolute; /* Positioning the close button */
+  right: 20px; /* Position from the right */
+  top: 20px; /* Position from the top */
+}
+
+.close-button:hover {
+  color: #ffd700; /* Color change on hover */
+  transform: scale(1.2); /* Scale up on hover */
+  transition: transform 0.3s ease; /* Smooth transition */
+}
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%; /* Full width on small screens */
+    left: -100%; /* Initially hidden on small screens */
+  }
+
+  
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+nav ul {
+  list-style-type: none;
+}
+
+nav ul li {
+  margin-bottom: 10px;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: white;
+  transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+  color: var(--accent-color);
+}
+
+.theme-toggle {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 20px;
+}
+
+#toggle-theme {
+  position: relative;
+  width: 60px;
+  height: 30px;
+  background-color: var(--accent-color);
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background-color 0.3s ease;
+}
+
+#toggle-theme .icon {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+#toggle-theme .sun {
+  transform: translateX(5px);
+}
+
+#toggle-theme .moon {
+  transform: translateX(35px);
+  opacity: 0;
+}
+
+body.dark-mode #toggle-theme .sun {
+  transform: translateX(35px);
+  opacity: 0;
+}
+
+body.dark-mode #toggle-theme .moon {
+  transform: translateX(-2px);
+  opacity: 1;
+}
+
+body.dark-mode #toggle-theme {
+  background-color: var(--accent-color-dark);
+}
+
+.theme-toggle button {
+  background-color: transparent;
+  outline: none;
+}
+
+.main-content {
+  flex: 1;
+  padding: 20px;
+  background-color: var(--background-color);
+  transition: background-color 0.3s ease;
+  min-width: 300px; /* Minimum width for main content */
+}
+
+header {
+  display: flex;
+  flex-direction: column; /* Stack elements vertically */
+  align-items: flex-start; /* Align items to the start */
+  margin-bottom: 20px;
+}
+/* Container for both search bar and unit toggle */
+.search-bar-unit-container {
+  display: flex;
+  justify-content: space-between; /* Ensure both elements are spread across the row */
+  align-items: center; /* Vertically align the search bar and toggle switch */
+  flex-wrap: wrap; /* Allow wrapping for small screens */
+  width: 100%;
+  gap: 20px; /* Optional: Add space between the elements */
+}
+
+/* Search Bar */
+.search-bar {
+  display: flex; /* Keep items in a row */
+  flex-wrap: nowrap; /* Prevent wrapping for input and button */
+  flex: 1; /* Make search bar flexible */
+  max-width: 500px; /* Optional: Set a max width */
+}
+
+.search-bar input {
+  padding: 10px;
+  margin-right: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  transition: border-color 0.3s ease;
+  flex: 1; /* Input takes remaining space */
+}
+
+.search-bar button {
+  padding: 10px 15px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search-bar button:hover {
+  background-color: var(--accent-color);
+}
+
+/* Unit Toggle */
+.unit-toggle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 80px;
+  height: 40px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--accent-color);
+  transition: 0.4s;
+  border-radius: 20px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 28px;
+  width: 28px;
+  left: 6px;
+  bottom: 6px;
+  background-color: var(--primary-color);
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #0c4c8b;
+}
+
+input:checked + .slider:before {
+  transform: translateX(40px);
+}
+
+.unit-label {
+  position: absolute;
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  transition: opacity 0.3s ease;
+}
+
+.celsius {
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.fahrenheit {
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+input:not(:checked) ~ .slider .fahrenheit {
+  opacity: 0.5;
+}
+
+input:checked ~ .slider .celsius {
+  opacity: 0.5;
+}
+
+input:checked ~ .slider .fahrenheit {
+  opacity: 1;
+}
+
+input:not(:checked) ~ .slider .celsius {
+  opacity: 1;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .search-bar-unit-container {
+    flex-direction: column; /* Stack search bar and unit toggle vertically */
+    align-items: stretch; /* Stretch items to full width */
+  }
+
+  .search-bar {
+    width: 100%; /* Full width search bar on small screens */
+    margin-bottom: 15px; /* Add space below search bar */
+  }
+
+  .unit-toggle {
+    justify-content: center; /* Center align the unit toggle */
+  }
+
+  input:checked + .slider:before {
+    transform: translateX(28px);
+  }
+
+  .switch {
+    width: 60px; /* Adjust the size of the toggle on small screens */
+    height: 30px;
+  }
+
+  .slider:before {
+    height: 22px;
+    width: 22px;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .search-bar {
+    flex-direction: column; /* Stack search bar elements on small screens */
+    align-items: stretch; /* Stretch input and button to full width */
+    width: 100%; /* Allow search bar to take full width */
+  }
+
+  .search-bar input {
+    margin-right: 0; /* Remove margin on smaller screens */
+    margin-bottom: 10px; /* Add space below the input */
+    width: 100%; /* Allow input to take full width */
+  }
+}
+.user-profile img:hover {
+  transform: scale(1.5);
+  transition: transform 0.3s ease-in-out;
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .sidebar {
+    width: 150px; /* Adjust sidebar width for medium screens */
+  }
+
+  .main-content {
+    padding: 30px; /* Adjust padding for main content */
+  }
+
+  .search-bar input {
+    min-width: 250px; /* Adjust input width for medium screens */
+  }
+
+  .search-bar button {
+    padding: 8px 16px; /* Adjust button padding for medium screens */
+  }
+
+  .weather-widget {
+    max-width: 350px; /* Adjust widget max width for medium screens */
+  }
+
+  .additional-info {
+    grid-template-columns: repeat(
+      auto-fill,
+      minmax(130px, 1fr)
+    ); /* Adjust grid columns for medium screens */
+  }
+}
+
+@media (min-width: 1025px) {
+  .sidebar {
+    width: 200px; /* Adjust sidebar width for large screens */
+  }
+
+  .main-content {
+    padding: 40px; /* Adjust padding for main content */
+  }
+
+  .search-bar input {
+    min-width: 300px; /* Adjust input width for large screens */
+  }
+
+  .search-bar button {
+    padding: 10px 20px; /* Adjust button padding for large screens */
+  }
+
+  .weather-widget {
+    max-width: 400px; /* Adjust widget max width for large screens */
+  }
+
+  .additional-info {
+    grid-template-columns: repeat(
+      auto-fill,
+      minmax(150px, 1fr)
+    ); /* Adjust grid columns for large screens */
+  }
+}
+
+.weather-widget {
+  display: flex;
+  background-color: var(--widget-background);
+  border-radius: 10px;
+  box-shadow: var(--box-shadow);
+  padding: 20px;
+  width: 100%; /* Responsive width for widget */
+  max-width: 300px; /* Max width */
+  margin: 20px auto;
+  text-align: center;
+}
+.weather-widget:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease-in-out;
+}
+
+.weather-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.location h2 {
+  font-size: 1.5rem; /* City name size */
+  color: var(--text-color);
+  margin: 0;
+}
+
+.location p {
+  font-size: 0.9rem; /* Date and time size */
+  color: var(--text-color);
+}
+
+.weather-icon {
+  width: 50px;
+}
+
+.weather-icon img {
+  width: 100%;
+  height: auto;
+}
+
+.temperature {
+  font-size: 3rem; /* Temperature size */
+  color: var(--accent-color);
+  margin: 10px 0;
+}
+
+.feels-like {
+  font-size: 1rem; /* Feels like text size */
+  color: var(--text-color);
+}
+
+.additional-info {
+  margin-top: 10px;
+  font-size: 0.75rem; /* Smaller text size */
+  color: var(--text-color);
+  border-top: 1px solid var(--accent-color);
+  padding-top: 8px;
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(120px, 1fr)
+  ); /* More compact grid */
+  gap: 5px; /* Smaller gap between items */
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  margin: 3px 0; /* Reduced vertical margin */
+}
+
+.icon {
+  margin-right: 5px; /* Less space between icon and label */
+  color: var(--accent-color);
+  font-size: 0.9rem; /* Smaller icon size */
+}
+
+.label {
+  font-weight: bold; /* Keep labels bold */
+  flex: 1; /* Allows label to take the space needed */
+}
+
+.value {
+  color: var(--accent-color);
+  font-weight: normal; /* Regular weight for values */
+}
+
+/* Loader styles */
+.loader {
+  width: 80px;
+  height: 40px;
+  border-radius: 100px 100px 0 0;
+  position: relative;
+  overflow: hidden;
+  margin: auto; /* Center horizontally */
+  top: 50%; /* Position from top */
+  /* transform: translateY(-50%); Center vertically */
+}
+.loader:before {
+  content: "";
+  position: absolute;
+  inset: 0 0 -100%;
+  background: radial-gradient(farthest-side, #ffd738 80%, #0000) left 70% top
+      20%/15px 15px,
+    radial-gradient(farthest-side, #020308 92%, #0000) left 65% bottom 19%/12px
+      12px,
+    radial-gradient(farthest-side, #ecfefe 92%, #0000) left 70% bottom 20%/15px
+      15px,
+    linear-gradient(#9eddfe 50%, #020308 0);
+  background-repeat: no-repeat;
+  animation: l5 2s infinite;
+}
+@keyframes l5 {
+  0%,
+  20% {
+    transform: rotate(0);
+  }
+  40%,
+  60% {
+    transform: rotate(0.5turn);
+  }
+  80%,
+  100% {
+    transform: rotate(1turn);
+  }
+}
+
+/* Responsive styles */
+@media screen and (min-width: 768px) {
+  .sidebar {
+    width: 200px;
+  }
+
+  .main-content {
+    padding: 40px;
+  }
+
+  .search-bar input {
+    min-width: 300px;
+  }
+
+  .search-bar button {
+    padding: 10px 20px;
+  }
+
+  .weather-widget {
+    max-width: 400px;
+  }
+
+  .additional-info {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+}
+
+.charts-container {
+  display: flex; /* Enable Flexbox for the container */
+  flex-wrap: wrap; /* Allow items to wrap to the next line on smaller screens */
+  justify-content: center; /* Center the charts horizontally */
+  gap: 20px; /* Space between the charts */
+  padding: 20px; /* Padding around the container */
+}
+
+.chart {
+  flex: 1 1 300px; /* Grow, shrink, and set a base width for the chart */
+  max-width: 400px; /* Maximum width for each chart */
+  min-width: 250px; /* Minimum width to ensure it doesn't get too small */
+  display: flex; /* Allow canvas to be centered in the chart div */
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+}
+
+@media (max-width: 768px) {
+  .charts-container {
+    flex-direction: column; /* Stack charts vertically on small screens */
+  }
+}
+
+/* General Styles for the Chart Container */
+.chart {
+  position: relative; /* Allows the canvas to be positioned relative to its parent */
+  width: 100%; /* Make the chart take full width of its container */
+  height: 300px; /* Fixed height for the chart */
+  margin: 20px 0; /* Vertical margin for spacing */
+  padding: 10px; /* Padding for the canvas */
+  background-color: var(
+    --widget-background
+  ); /* Background color from the theme */
+  border-radius: 8px; /* Rounded corners for a softer appearance */
+  box-shadow: var(--box-shadow); /* Box shadow for depth effect */
+}
+
+/* Ensures the canvas scales correctly */
+.chart canvas {
+  display: block; /* Makes sure the canvas is a block element */
+  width: 100% !important; /* Forces the canvas to be responsive */
+  height: auto !important; /* Maintain aspect ratio */
+}
+.chart canvas:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+}
+
+/* Media Queries for additional responsive adjustments */
+@media (max-width: 768px) {
+  .chart {
+    height: 250px; /* Slightly reduce height on smaller screens */
+  }
+}
+/* Ensure the table stays inside the parent div and adjust design for theme */
+.content-area {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  gap: 20px;
+}
+
+.table-area {
+  width: 60%;
+  max-width: 100%; /* Ensure it doesn't overflow */
+  border: 1px solid var(--border-color); /* Themed border */
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: var(--background-color); /* Themed background */
+  border-radius: 10px;
+  overflow-x: auto; /* Prevent horizontal overflow */
+  box-shadow: var(--box-shadow); /* Themed box shadow */
+}
+
+.table-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-x: auto; /* Ensure it doesn’t overflow horizontally */
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(
+    --widget-background
+  ); /* Themed background for the table */
+  color: var(--text-color); /* Themed text color */
+}
+
+th,
+td {
+  border: 1px solid var(--border-color); /* Themed border */
+  padding: 8px; /* Reduced padding for compact design */
+  font-size: 14px; /* Smaller font size for compactness */
+  text-align: center;
+}
+
+th {
+  background-color: var(--primary-color); /* Themed header background */
+  color: var(--accent-color); /* Themed text color for headers */
+}
+
+td {
+  background-color: #2e5d8d3c; /* Themed background for rows */
+}
+
+/* Adjust pagination buttons and layout */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+button {
+  padding: 8px 16px; /* Narrow down button size */
+  margin: 0 10px;
+  background-color: var(--primary-color); /* Themed button color */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px; /* Adjust font size for smaller buttons */
+}
+
+button:disabled {
+  background-color: var(--border-color); /* Themed disabled button color */
+  cursor: not-allowed;
+}
+
+#page-info {
+  margin: 0 10px;
+  color: var(--text-color); /* Themed text color */
+  font-size: 14px; /* Adjust for compact size */
+}
+.filter-container {
+  display: flex; /* Use flexbox to align items inline */
+  align-items: center; /* Center items vertically */
+  margin-bottom: 10px; /* Add space below the filter */
+}
+
+.filter-container label {
+  margin-right: 10px; /* Space between label and dropdown */
+}
+
+#filter-select {
+  width: 200px; /* Width of the dropdown */
+  padding: 8px; /* Padding for dropdown */
+  border: 1px solid var(--border-color); /* Themed border */
+  border-radius: 5px; /* Rounded corners */
+  background-color: #ffffff; /* Background color */
+}
+
+@media screen and (max-width: 768px) {
+  .content-area {
+    flex-direction: column;
+  }
+
+  .table-area {
+    width: 100%;
+    margin-top: 20px;
+  }
+}
+/* 
+//////////////////////////////////////// */
+
+.chat-container {
+  display: flex; /* Enable Flexbox */
+  flex-direction: column; /* Arrange children in a column */
+  justify-content: flex-start; /* Align items at the top */
+  flex: 1; /* Allow the chat container to grow */
+  font-size: 30px;
+  color: #000000;
+  height: 500px;
+
+  background-size: cover;
+  background-color: var(
+    --background-color
+  ); /* Lighten the background with reduced opacity */
+  overflow-y: auto; /* Allow vertical scrolling */
+  border: 1px solid var(--border-color); /* Themed border */
+  /* background:var(--background-color); */
+  background-size: 100% 100%;
+  backdrop-filter: blur(10px);
+  animation: gradient 1s ease infinite;
+  box-shadow: var(--box-shadow);
+
+  border-radius: 10px;
+  padding: 1rem;
+}
+
+.message {
+  display: flex;
+  align-items: flex-end;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.message.outgoing {
+  background-color: var(--primary-color);
+  box-shadow: var(--box-shadow);
+  color: var(--text-color);
+  align-self: flex-end;
+}
+
+.message.incoming {
+  background-color: var(--widget-background);
+  box-shadow: var(--box-shadow);
+  color: var(--text-color);
+  align-self: flex-start;
+}
+
+.message-content {
+  display: flex;
+  align-items: center;
+}
+
+.avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 50px;
+}
+
+.text {
+  font-family: sans-serif;
+  font-size: 14px;
+}
+
+.typing-form {
+  display: flex;
+  padding: 6px;
+  border-radius: 10px;
+  background-color: var(--accent-color);
+  margin-top: auto;
+}
+
+.typing-input {
+  flex-grow: 1;
+  padding: 10px;
+  border: var(--border-color);
+  border-radius: 8px;
+  outline: none;
+  font-size: 16px;
+}
+.chat-header {
+  background-color: var(--accent-color); /* Themed background color */
+ 
+  padding: 10px 20px; /* Padding for spacing */
+  border-radius: 10px 10px 0 0; /* Rounded top corners */
+  box-shadow: var(--box-shadow); /* Themed box shadow */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-color); /* Themed border */
+}
+
+.chat-header h2 {
+  margin: 0; /* Remove default margin */
+  font-size: 1.5rem; /* Font size for the header */
+  color: var(--text-color); /* Themed text color */
+}
+
+.typing-form button {
+  padding: 10px 15px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.typing-form button:hover {
+  background-color: #599ce9;
+}
+
+/* Modal styles */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4); /* Black background with transparency */
+}
+
+.modal-content {
+  background-color: var(--card-color);
+  margin: 10% auto; /* 10% from the top and centered */
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+  box-shadow: var(--box-shadow); /* Slight shadow for depth */
+  position: relative;
+}
+
+.developer-card {
+  text-align: center;
+}
+
+.developer-card img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-bottom: 15px;
+}
+
+.developer-card h2 {
+  margin: 10px 0;
+  font-size: 22px;
+}
+
+.developer-card p {
+  margin: 5px 0;
+  font-size: 16px;
+  color: var(--text-color); /* Darker text color for better visibility */
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #333;
+}
